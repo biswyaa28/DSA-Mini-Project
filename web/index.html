@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Railway Network DSA System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Railway Network DSA System</h1>
+      <p class="subtitle">Graph Algorithms &amp; Data Structures Demo</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="stations">Stations &amp; Routes</button>
+      <button class="tab-btn" data-tab="booking">Booking</button>
+      <button class="tab-btn" data-tab="routing">Routing</button>
+      <button class="tab-btn" data-tab="mst">MST &amp; Reports</button>
+      <button class="tab-btn" data-tab="occupancy">Occupancy Map</button>
+      <button class="tab-btn" data-tab="fare-trend">Fare Trend</button>
+    </nav>
+
+    <div class="tab-content" id="tab-stations">
+      <div class="card-row">
+        <div class="card">
+          <h3>Add Station</h3>
+          <form id="station-form">
+            <input type="text" name="id" placeholder="Station ID (e.g. S1)" required>
+            <input type="text" name="name" placeholder="Station Name (e.g. Delhi)" required>
+            <button type="submit">Add Station</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Add Route</h3>
+          <form id="route-form">
+            <input type="text" name="id" placeholder="Route ID (e.g. R1)" required>
+            <input type="text" name="fromStationId" placeholder="From Station ID" required>
+            <input type="text" name="toStationId" placeholder="To Station ID" required>
+            <input type="number" name="distanceKm" placeholder="Distance (km)" required>
+            <input type="number" step="0.01" name="baseFare" placeholder="Base Fare (INR)" required>
+            <input type="number" name="capacity" placeholder="Capacity (seats)" required>
+            <button type="submit">Add Route</button>
+          </form>
+        </div>
+      </div>
+      <div class="card-row">
+        <div class="card">
+          <h3>Stations <button class="refresh-btn" onclick="loadStations()">Refresh</button></h3>
+          <div id="stations-table"><p class="hint">No stations yet.</p></div>
+        </div>
+        <div class="card">
+          <h3>Routes <button class="refresh-btn" onclick="loadRoutes()">Refresh</button></h3>
+          <div id="routes-table"><p class="hint">No routes yet.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="tab-booking">
+      <div class="card-row">
+        <div class="card">
+          <h3>Book a Seat</h3>
+          <form id="book-form">
+            <input type="text" name="routeId" placeholder="Route ID" required>
+            <input type="text" name="passengerName" placeholder="Passenger Name" required>
+            <label class="checkbox-label">
+              <input type="checkbox" name="isVip"> VIP
+            </label>
+            <input type="text" name="travelDate" placeholder="Travel Date (optional)">
+            <button type="submit">Book Seat</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Cancel Booking</h3>
+          <form id="cancel-form">
+            <input type="text" name="bookingId" placeholder="Booking ID" required>
+            <button type="submit">Cancel Booking</button>
+          </form>
+        </div>
+      </div>
+      <div class="card">
+        <h3>All Bookings <button class="refresh-btn" onclick="loadBookings()">Refresh</button></h3>
+        <div id="bookings-table"><p class="hint">No bookings yet.</p></div>
+      </div>
+      <div class="card">
+        <h3>Waitlist <button class="refresh-btn" onclick="loadWaitlist()">Refresh</button></h3>
+        <div id="waitlist-table"><p class="hint">Waitlist is empty.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="tab-routing">
+      <div class="card-row">
+        <div class="card">
+          <h3>Search Route</h3>
+          <form id="route-search-form">
+            <input type="text" name="from" placeholder="From Station ID" required>
+            <input type="text" name="to" placeholder="To Station ID" required>
+            <select name="mode">
+              <option value="shortest">Shortest (Distance)</option>
+              <option value="least_crowded">Least Crowded</option>
+            </select>
+            <button type="submit">Find Path</button>
+          </form>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Path Result</h3>
+        <div id="path-result"><p class="hint">Search for a route to see results.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="tab-mst">
+      <div class="card-row">
+        <div class="card">
+          <h3>Build MST (Prim's Algorithm)</h3>
+          <form id="mst-form">
+            <input type="text" name="start" placeholder="Start Station ID" required>
+            <button type="submit">Build MST</button>
+          </form>
+          <div id="mst-result"></div>
+        </div>
+        <div class="card">
+          <h3>Profitability Report</h3>
+          <button onclick="loadProfitability()" class="primary-btn">Generate Report</button>
+          <div id="profitability-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="tab-occupancy">
+      <div class="card">
+        <h3>Route Occupancy Map <button class="refresh-btn" onclick="loadOccupancy()">Refresh</button></h3>
+        <div id="occupancy-map"><p class="hint">No routes to display. Add routes and make bookings first.</p></div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="tab-fare-trend">
+      <div class="card">
+        <h3>Fare Trend Projection</h3>
+        <form id="fare-trend-form">
+          <input type="text" name="routeId" placeholder="Route ID" required>
+          <input type="number" name="days" placeholder="Days (1-30)" min="1" max="30" required>
+          <button type="submit">Project Fares</button>
+        </form>
+        <div id="fare-trend-result"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -80,18 +80,17 @@ function updateHeroMetrics(pageKey) {
   if (heroRoutes) heroRoutes.textContent = allRoutes.length;
 }
 
-function setGraphCallout(kind, detail) {
+function setGraphCallout(type, detail) {
   const callout = document.getElementById('graph-callout');
   if (!callout) return;
-  if (kind === 'dijkstra') {
+  if (type === 'dijkstra') {
     callout.textContent = 'Dijkstra: ' + detail;
-    return;
-  }
-  if (kind === 'mst') {
+  } else if (type === 'mst') {
     callout.textContent = 'MST: ' + detail;
-    return;
+  } else {
+    callout.textContent = '';
   }
-  callout.textContent = '';
+  callout.classList.toggle('active', type && detail ? true : false);
 }
 
 function initGraphModal() {

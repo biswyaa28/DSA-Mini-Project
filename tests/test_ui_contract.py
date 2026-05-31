@@ -97,5 +97,12 @@ class TestExhibitionJsContract(unittest.TestCase):
             self.assertIn(symbol, js, f"Missing JS helper: {symbol}")
 
 
+def test_graph_callout_has_active_class():
+    js = Path("web/app.js").read_text(encoding="utf-8")
+    assert "graph-callout" in js
+    assert "classList.toggle" in js
+    assert "active" in js
+
+
 if __name__ == "__main__":
     unittest.main()

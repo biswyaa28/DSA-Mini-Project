@@ -1,0 +1,50 @@
+<h2>Overview graph: visual direction</h2>
+<p class="subtitle">Pick a direction for the graph’s look + layout balance. I’ll use your choice to design the detailed fix.</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="height:140px;border-radius:14px;background:linear-gradient(135deg,#0b1324 0%,#1f2a44 55%,#26324f 100%);display:flex;align-items:center;justify-content:center;color:#e2e8f0;font-weight:600;letter-spacing:0.04em;">
+        Cinematic Graph Stage
+      </div>
+      <div style="margin-top:10px;display:grid;grid-template-columns:1.3fr 1fr;gap:10px;">
+        <div style="height:90px;border-radius:12px;background:#f8fbff;border:1px solid #dbe5f0;"></div>
+        <div style="height:90px;border-radius:12px;background:#ffffff;border:1px solid #dbe5f0;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Option A: Graph as stage (recommended)</h3>
+      <p>Make the graph the hero: larger canvas, darker gradient panel, subtle glow. KPIs shrink into slim insight tiles.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="height:120px;border-radius:12px;background:#ffffff;border:1px solid #dbe5f0;"></div>
+      <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="height:110px;border-radius:12px;background:#f7fafc;border:1px solid #dbe5f0;"></div>
+        <div style="height:110px;border-radius:12px;background:#f7fafc;border:1px solid #dbe5f0;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Option B: Balanced grid</h3>
+      <p>Graph and KPIs share equal weight. Lighter canvas, more data tiles around it. Cleaner but less dramatic.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="height:110px;border-radius:12px;background:#ffffff;border:1px solid #dbe5f0;"></div>
+      <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="height:110px;border-radius:12px;background:#ffffff;border:1px solid #dbe5f0;"></div>
+        <div style="height:110px;border-radius:12px;background:#ffffff;border:1px solid #dbe5f0;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Option C: Data-first dashboard</h3>
+      <p>Graph becomes compact and tucked into a corner; metrics dominate. Great for analytics, weaker for demos.</p>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:18px;">Click one card to select. You can also describe tweaks in the terminal.</p>

@@ -1,0 +1,48 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e5]: 🚂
+    - navigation [ref=e6]:
+      - button "📊" [ref=e7] [cursor=pointer]:
+        - generic [ref=e8]: 📊
+      - button "🚉" [ref=e9] [cursor=pointer]:
+        - generic [ref=e10]: 🚉
+      - button "🎫" [ref=e11] [cursor=pointer]:
+        - generic [ref=e12]: 🎫
+      - button "🛤️" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: 🛤️
+      - button "🌲" [ref=e15] [cursor=pointer]:
+        - generic [ref=e16]: 🌲
+      - button "📈" [ref=e17] [cursor=pointer]:
+        - generic [ref=e18]: 📈
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]: Overview
+        - generic [ref=e23]: Dashboard summary of your railway network
+      - generic [ref=e24]:
+        - generic [ref=e25]: Network Overview
+        - generic [ref=e26]: "5"
+        - generic [ref=e27]: "7"
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - generic [ref=e31]: Stations
+          - generic [ref=e32]: "5"
+          - generic [ref=e33]: 5 stations
+        - generic [ref=e34]:
+          - generic [ref=e35]: Routes
+          - generic [ref=e36]: "7"
+          - generic [ref=e37]: 150 total km
+        - generic [ref=e38]:
+          - generic [ref=e39]: Bookings
+          - generic [ref=e40]: —
+          - generic [ref=e41]: Loading...
+        - generic [ref=e42]:
+          - generic [ref=e43]: Revenue
+          - generic [ref=e44]: —
+          - generic [ref=e45]: Loading...
+      - generic [ref=e47]:
+        - generic [ref=e48]: 🌐 Network Graph
+        - generic [ref=e49]:
+          - button "⛶ Expand" [ref=e50] [cursor=pointer]
+          - button "⟲ Reset View" [ref=e51] [cursor=pointer]

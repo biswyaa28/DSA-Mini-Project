@@ -1,0 +1,64 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e5]: 🚂
+      - navigation [ref=e6]:
+        - button "📊" [ref=e7] [cursor=pointer]:
+          - generic [ref=e8]: 📊
+        - button "🚉" [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: 🚉
+        - button "🎫" [ref=e11] [cursor=pointer]:
+          - generic [ref=e12]: 🎫
+        - button "🛤️" [ref=e13] [cursor=pointer]:
+          - generic [ref=e14]: 🛤️
+        - button "🌲" [ref=e15] [cursor=pointer]:
+          - generic [ref=e16]: 🌲
+        - button "📈" [ref=e17] [cursor=pointer]:
+          - generic [ref=e18]: 📈
+    - main [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - generic [ref=e22]: Route Finder
+          - generic [ref=e23]: Find shortest or least-crowded paths using Dijkstra's algorithm
+        - generic [ref=e25]: ● Connected
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - heading "🛤️ Route Finder" [level=2] [ref=e28]
+          - generic [ref=e29]: "Algorithm: Dijkstra"
+        - generic [ref=e30]:
+          - generic [ref=e31]:
+            - generic [ref=e32]: Search Parameters
+            - generic [ref=e33]:
+              - textbox "From Station ID" [ref=e35]: S1
+              - textbox "To Station ID" [ref=e37]: S4
+              - generic [ref=e38]:
+                - button "Shortest" [ref=e39] [cursor=pointer]
+                - button "Least Crowded" [ref=e40] [cursor=pointer]
+              - button "Find Path" [active] [ref=e41] [cursor=pointer]
+          - generic [ref=e42]:
+            - generic [ref=e43]: Path Result
+            - generic [ref=e47]:
+              - generic [ref=e48]:
+                - generic [ref=e49]: S1 · Central
+                - generic [ref=e50]:
+                  - text: →
+                  - generic [ref=e51]: R1 (10km)
+                - generic [ref=e52]: S2 · West
+                - generic [ref=e53]:
+                  - text: →
+                  - generic [ref=e54]: R5 (25km)
+                - generic [ref=e55]: S4 · East
+              - generic [ref=e56]:
+                - generic [ref=e57]:
+                  - strong [ref=e58]: "From:"
+                  - text: Central
+                - generic [ref=e59]:
+                  - strong [ref=e60]: "To:"
+                  - text: East
+                - generic [ref=e61]:
+                  - strong [ref=e62]: "Total:"
+                  - text: 35 km
+                - generic [ref=e63]:
+                  - strong [ref=e64]: "Mode:"
+                  - text: Shortest
+  - generic [ref=e65]: Searching...

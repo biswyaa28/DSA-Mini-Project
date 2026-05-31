@@ -1,7 +1,7 @@
-test_models 2 0.225442
-test_graph_basics 2 0.291411
-test_booking_pricing 2 0.179062
-test_routing_mst 2 0.171878
-test_sort_search_reports 2 0.186201
-test_api_smoke 2 0.181182
+test_models 7 0.000250339
+test_graph_basics 7 0.000219399
+test_booking_pricing 7 0.000263208
+test_routing_mst 7 0.000363518
+test_sort_search_reports 7 0.000414292
+test_api_smoke 7 0.000351613
 ---

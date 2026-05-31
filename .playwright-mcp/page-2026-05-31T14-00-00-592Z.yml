@@ -1,0 +1,48 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: 🚂
+        - generic [ref=e6]: RailDSA
+      - navigation [ref=e7]:
+        - button "📊 Overview" [ref=e8] [cursor=pointer]:
+          - generic [ref=e9]: 📊
+          - generic [ref=e10]: Overview
+        - button "🚉 Stations & Routes" [ref=e11] [cursor=pointer]:
+          - generic [ref=e12]: 🚉
+          - generic [ref=e13]: Stations & Routes
+        - button "🎫 Booking" [ref=e14] [cursor=pointer]:
+          - generic [ref=e15]: 🎫
+          - generic [ref=e16]: Booking
+        - button "🛤️ Route Finder Dijkstra" [ref=e17] [cursor=pointer]:
+          - generic [ref=e18]: 🛤️
+          - generic [ref=e19]: Route Finder
+          - generic [ref=e20]: Dijkstra
+        - button "🌲 MST Report Prim's" [active] [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 🌲
+          - generic [ref=e23]: MST Report
+          - generic [ref=e24]: Prim's
+        - button "📈 Analysis" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: 📈
+          - generic [ref=e27]: Analysis
+      - generic [ref=e28]: DSA Mini Project
+    - main [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]: MST Report
+          - generic [ref=e33]: Build a minimum spanning tree using Prim's algorithm
+        - generic [ref=e35]: ● Connected
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - heading "🌲 MST Report" [level=2] [ref=e102]
+          - generic [ref=e103]: "Algorithm: Prim's"
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - generic [ref=e106]: Build Minimum Spanning Tree
+            - generic [ref=e107]:
+              - textbox "Start Station ID" [ref=e109]
+              - button "Build MST" [ref=e110] [cursor=pointer]
+          - generic [ref=e111]:
+            - generic [ref=e112]: Result
+            - paragraph [ref=e115]: Enter a start station and build the MST.
+  - generic [ref=e99]: Searching...

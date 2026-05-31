@@ -1,0 +1,5 @@
+[   65018ms] TypeError: network.getData is not a function
+    at resetGraphColors (http://localhost:8080/app.js:235:25)
+    at highlightEdges (http://localhost:8080/app.js:245:3)
+    at renderPathResult (http://localhost:8080/app.js:319:3)
+    at HTMLFormElement.<anonymous> (http://localhost:8080/app.js:116:14)

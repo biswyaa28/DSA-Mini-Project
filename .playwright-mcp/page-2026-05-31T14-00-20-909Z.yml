@@ -1,0 +1,62 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: 🚂
+        - generic [ref=e6]: RailDSA
+      - navigation [ref=e7]:
+        - button "📊 Overview" [ref=e8] [cursor=pointer]:
+          - generic [ref=e9]: 📊
+          - generic [ref=e10]: Overview
+        - button "🚉 Stations & Routes" [ref=e11] [cursor=pointer]:
+          - generic [ref=e12]: 🚉
+          - generic [ref=e13]: Stations & Routes
+        - button "🎫 Booking" [ref=e14] [cursor=pointer]:
+          - generic [ref=e15]: 🎫
+          - generic [ref=e16]: Booking
+        - button "🛤️ Route Finder Dijkstra" [ref=e17] [cursor=pointer]:
+          - generic [ref=e18]: 🛤️
+          - generic [ref=e19]: Route Finder
+          - generic [ref=e20]: Dijkstra
+        - button "🌲 MST Report Prim's" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 🌲
+          - generic [ref=e23]: MST Report
+          - generic [ref=e24]: Prim's
+        - button "📈 Analysis" [active] [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: 📈
+          - generic [ref=e27]: Analysis
+      - generic [ref=e28]: DSA Mini Project
+    - main [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]: Analysis
+          - generic [ref=e33]: Reports, fare search, occupancy, and trend prediction
+        - generic [ref=e35]: ● Connected
+      - generic [ref=e126]:
+        - generic [ref=e127]:
+          - heading "📈 Analysis" [level=2] [ref=e128]
+          - generic [ref=e129]: Sorting
+          - generic [ref=e130]: Binary Search
+        - generic [ref=e131]:
+          - generic [ref=e132]:
+            - generic [ref=e133]: 💰 Profitability by Route
+            - button "Generate Report" [ref=e134] [cursor=pointer]
+          - generic [ref=e135]:
+            - generic [ref=e136]: 🎯 Fare Range Search
+            - paragraph [ref=e137]: "Binary search: find bookings within a fare range"
+            - generic [ref=e138]:
+              - spinbutton [ref=e140]
+              - spinbutton [ref=e142]
+            - button "Search" [ref=e143] [cursor=pointer]
+        - generic [ref=e144]:
+          - generic [ref=e145]:
+            - generic [ref=e146]: 📊 Seat Occupancy Map
+            - button "Load Map" [ref=e147] [cursor=pointer]
+          - generic [ref=e148]:
+            - generic [ref=e149]: 📈 Fare Trend Predictor
+            - generic [ref=e150]:
+              - generic [ref=e151]:
+                - textbox "Route ID" [ref=e153]
+                - spinbutton [ref=e155]
+              - button "Project Fares" [ref=e156] [cursor=pointer]
+  - generic [ref=e99]: Building MST...

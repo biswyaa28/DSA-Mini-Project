@@ -1,0 +1,70 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: 🚂
+      - generic [ref=e6]: RailDSA
+    - navigation [ref=e7]:
+      - button "📊 Overview" [ref=e8] [cursor=pointer]:
+        - generic [ref=e9]: 📊
+        - generic [ref=e10]: Overview
+      - button "🚉 Stations & Routes" [ref=e11] [cursor=pointer]:
+        - generic [ref=e12]: 🚉
+        - generic [ref=e13]: Stations & Routes
+      - button "🎫 Booking" [active] [ref=e14] [cursor=pointer]:
+        - generic [ref=e15]: 🎫
+        - generic [ref=e16]: Booking
+      - button "🛤️ Route Finder Dijkstra" [ref=e17] [cursor=pointer]:
+        - generic [ref=e18]: 🛤️
+        - generic [ref=e19]: Route Finder
+        - generic [ref=e20]: Dijkstra
+      - button "🌲 MST Report Prim's" [ref=e21] [cursor=pointer]:
+        - generic [ref=e22]: 🌲
+        - generic [ref=e23]: MST Report
+        - generic [ref=e24]: Prim's
+      - button "📈 Analysis" [ref=e25] [cursor=pointer]:
+        - generic [ref=e26]: 📈
+        - generic [ref=e27]: Analysis
+    - generic [ref=e28]: DSA Mini Project
+  - main [ref=e29]:
+    - generic [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Booking
+        - generic [ref=e33]: Book seats, manage waitlist, process cancellations
+      - generic [ref=e35]: ● Connected
+    - generic [ref=e199]:
+      - generic [ref=e200]:
+        - heading "🎫 Booking" [level=2] [ref=e201]
+        - generic [ref=e202]: Queue — FIFO
+        - generic [ref=e203]: Stack — LIFO
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - generic [ref=e206]: Book a Seat
+          - generic [ref=e207]:
+            - textbox "Route ID (e.g. R1)" [ref=e209]
+            - textbox "Passenger Name" [ref=e211]
+            - generic [ref=e212]:
+              - textbox "Travel Date (optional)" [ref=e214]
+              - generic [ref=e215]:
+                - checkbox "VIP" [ref=e216]
+                - generic [ref=e217] [cursor=pointer]: VIP
+            - button "Book Seat" [ref=e218] [cursor=pointer]
+        - generic [ref=e219]:
+          - generic [ref=e220]: Cancel Booking
+          - generic [ref=e221]:
+            - textbox "Booking ID (e.g. B1)" [ref=e223]
+            - button "Cancel Booking" [ref=e224] [cursor=pointer]
+          - generic [ref=e225]:
+            - generic [ref=e226]: Refund Stack (LIFO)
+            - generic [ref=e227]: No cancellations yet.
+      - generic [ref=e228]:
+        - generic [ref=e229]:
+          - generic [ref=e230]:
+            - text: All Bookings
+            - generic [ref=e231]: "0"
+            - button "⟳ Refresh" [ref=e232] [cursor=pointer]
+          - paragraph [ref=e235]: No bookings yet.
+        - generic [ref=e236]:
+          - generic [ref=e237]:
+            - text: Waitlist Queue
+            - generic [ref=e238]: "0"
+          - paragraph [ref=e241]: Waitlist is empty.

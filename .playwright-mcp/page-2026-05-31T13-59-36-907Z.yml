@@ -1,0 +1,50 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: 🚂
+      - generic [ref=e6]: RailDSA
+    - navigation [ref=e7]:
+      - button "📊 Overview" [ref=e8] [cursor=pointer]:
+        - generic [ref=e9]: 📊
+        - generic [ref=e10]: Overview
+      - button "🚉 Stations & Routes" [ref=e11] [cursor=pointer]:
+        - generic [ref=e12]: 🚉
+        - generic [ref=e13]: Stations & Routes
+      - button "🎫 Booking" [ref=e14] [cursor=pointer]:
+        - generic [ref=e15]: 🎫
+        - generic [ref=e16]: Booking
+      - button "🛤️ Route Finder Dijkstra" [active] [ref=e17] [cursor=pointer]:
+        - generic [ref=e18]: 🛤️
+        - generic [ref=e19]: Route Finder
+        - generic [ref=e20]: Dijkstra
+      - button "🌲 MST Report Prim's" [ref=e21] [cursor=pointer]:
+        - generic [ref=e22]: 🌲
+        - generic [ref=e23]: MST Report
+        - generic [ref=e24]: Prim's
+      - button "📈 Analysis" [ref=e25] [cursor=pointer]:
+        - generic [ref=e26]: 📈
+        - generic [ref=e27]: Analysis
+    - generic [ref=e28]: DSA Mini Project
+  - main [ref=e29]:
+    - generic [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Route Finder
+        - generic [ref=e33]: Find shortest or least-crowded paths using Dijkstra's algorithm
+      - generic [ref=e35]: ● Connected
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - heading "🛤️ Route Finder" [level=2] [ref=e65]
+        - generic [ref=e66]: "Algorithm: Dijkstra"
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - generic [ref=e69]: Search Parameters
+          - generic [ref=e70]:
+            - textbox "From Station ID" [ref=e72]
+            - textbox "To Station ID" [ref=e74]
+            - generic [ref=e75]:
+              - button "Shortest" [ref=e76] [cursor=pointer]
+              - button "Least Crowded" [ref=e77] [cursor=pointer]
+            - button "Find Path" [ref=e78] [cursor=pointer]
+        - generic [ref=e79]:
+          - generic [ref=e80]: Path Result
+          - paragraph [ref=e83]: Search for a route to see results.

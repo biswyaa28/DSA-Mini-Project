@@ -1,0 +1,95 @@
+<h2>Detailed Layout &amp; Navigation</h2>
+<p class="subtitle">Left sidebar + main content area for the "app" feel</p>
+
+<div style="display:flex;gap:16px;min-height:400px">
+  <!-- Sidebar -->
+  <div style="width:200px;background:#0f172a;border-radius:12px;padding:16px;display:flex;flex-direction:column;flex-shrink:0">
+    <div style="color:#fff;font-weight:700;font-size:0.9rem;padding:8px 12px;margin-bottom:16px;display:flex;align-items:center;gap:8px">
+      <span>🚂 RailDSA</span>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <div style="background:#1e293b;color:#fff;padding:10px 12px;border-radius:8px;font-size:0.8rem;display:flex;align-items:center;gap:10px">
+        <span>📊</span><span>Overview</span>
+      </div>
+      <div style="color:#94a3b8;padding:10px 12px;border-radius:8px;font-size:0.8rem;display:flex;align-items:center;gap:10px">
+        <span>🚉</span><span>Stations &amp; Routes</span>
+      </div>
+      <div style="color:#94a3b8;padding:10px 12px;border-radius:8px;font-size:0.8rem;display:flex;align-items:center;gap:10px">
+        <span>🎫</span><span>Booking</span>
+      </div>
+      <div style="color:#94a3b8;padding:10px 12px;border-radius:8px;font-size:0.8rem;display:flex;align-items:center;gap:10px">
+        <span>🛤️</span><span>Route Finder</span><span style="margin-left:auto;background:#2563eb;color:#fff;font-size:0.6rem;padding:2px 6px;border-radius:4px">Dijkstra</span>
+      </div>
+      <div style="color:#94a3b8;padding:10px 12px;border-radius:8px;font-size:0.8rem;display:flex;align-items:center;gap:10px">
+        <span>🌲</span><span>MST Report</span><span style="margin-left:auto;background:#2563eb;color:#fff;font-size:0.6rem;padding:2px 6px;border-radius:4px">Prim's</span>
+      </div>
+      <div style="color:#94a3b8;padding:10px 12px;border-radius:8px;font-size:0.8rem;display:flex;align-items:center;gap:10px">
+        <span>📈</span><span>Analysis</span>
+      </div>
+    </nav>
+    <div style="margin-top:auto;padding-top:16px;border-top:1px solid #1e293b;color:#64748b;font-size:0.7rem;text-align:center">
+      DSA Mini Project
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+    <!-- Top bar -->
+    <div style="background:#fff;border-radius:12px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
+      <div>
+        <div style="font-size:1.1rem;font-weight:700;color:#0f172a">Overview</div>
+        <div style="font-size:0.75rem;color:#64748b">Dashboard summary of your railway network</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <div style="background:#f1f5f9;padding:6px 12px;border-radius:6px;font-size:0.75rem;color:#475569">Network: Connected</div>
+        <div style="background:#f1f5f9;padding:6px 12px;border-radius:6px;font-size:0.75rem;color:#475569">5 Stations</div>
+      </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+      <div style="background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
+        <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:600">Stations</div>
+        <div style="font-size:1.5rem;font-weight:700;color:#0f172a;margin-top:4px">5</div>
+        <div style="font-size:0.7rem;color:#22c55e;margin-top:4px">▲ All connected</div>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
+        <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:600">Routes</div>
+        <div style="font-size:1.5rem;font-weight:700;color:#0f172a;margin-top:4px">7</div>
+        <div style="font-size:0.7rem;color:#64748b;margin-top:4px">Total 150 km</div>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
+        <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:600">Bookings</div>
+        <div style="font-size:1.5rem;font-weight:700;color:#0f172a;margin-top:4px">12</div>
+        <div style="font-size:0.7rem;color:#64748b;margin-top:4px">3 waitlisted</div>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
+        <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:600">Revenue</div>
+        <div style="font-size:1.5rem;font-weight:700;color:#0f172a;margin-top:4px">₹2,450</div>
+        <div style="font-size:0.7rem;color:#64748b;margin-top:4px">Across 7 routes</div>
+      </div>
+    </div>
+
+    <!-- Graph card -->
+    <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);flex:1">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div style="font-size:0.9rem;font-weight:600;color:#0f172a">🌐 Network Graph</div>
+        <div style="background:#2563eb;color:#fff;padding:6px 14px;border-radius:6px;font-size:0.75rem;cursor:pointer">Expand Fullscreen</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#f8fafc,#f1f5f9);border-radius:8px;height:250px;display:flex;align-items:center;justify-content:center;color:#94a3b8;border:2px dashed #e2e8f0">
+        <div style="text-align:center">
+          <div style="font-size:1.5rem">🌐</div>
+          <div style="font-size:0.8rem;margin-top:4px">Interactive Network Graph (vis.js)</div>
+          <div style="font-size:0.7rem;color:#94a3b8">Click any station to explore routes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top:16px;color:#666;font-size:0.85rem"><strong>Layout questions:</strong></p>
+<ul style="font-size:0.8rem;color:#64748b">
+  <li>Dark sidebar vs. light top navigation bar?</li>
+  <li>Should the graph be on the Overview page or its own tab?</li>
+  <li>Like the DSA algorithm badges (Dijkstra / Prim's) on nav items?</li>
+</ul>

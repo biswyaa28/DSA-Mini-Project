@@ -1,0 +1,4 @@
+[    1466ms] ReferenceError: vis is not defined
+    at initGraph (http://localhost:8080/app.js:208:29)
+    at loadAllData (http://localhost:8080/app.js:148:3)
+[    1464ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0

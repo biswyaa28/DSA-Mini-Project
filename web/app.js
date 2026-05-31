@@ -262,7 +262,7 @@ function initGraph(stations, routes) {
     label: s.id + '\n' + s.name,
     title: s.name + ' (' + s.id + ')',
     color: { background: '#f8fafc', border: '#1f2937', highlight: { background: '#ffffff', border: '#0ea5e9' }, hover: { background: '#ffffff', border: '#0ea5e9' } },
-    font: { color: 'rgba(0,0,0,0)', size: 12, face: 'Manrope, Sora, sans-serif', multi: true },
+    font: { color: '#1f2937', size: 12, face: 'Manrope, Sora, sans-serif', multi: true },
     borderWidth: 2,
     size: 16,
     shape: 'dot'
@@ -308,14 +308,12 @@ function initGraph(stations, routes) {
   networkFullscreen = null;
 
   network.on('hoverNode', params => {
-    nodesDataSet.update({ id: params.node, font: { color: '#1f2937', size: 12, face: 'Manrope, Sora, sans-serif', multi: true } });
+    // Label already visible; optional: highlight node border or size if desired
+    // For now, do nothing to keep labels always visible
   });
 
   network.on('blurNode', params => {
-    const selected = new Set(network.getSelectedNodes());
-    if (!selected.has(params.node)) {
-      nodesDataSet.update({ id: params.node, font: { color: 'rgba(0,0,0,0)' } });
-    }
+    // Label already visible; do nothing
   });
 
   network.on('selectNode', params => {
@@ -326,7 +324,7 @@ function initGraph(stations, routes) {
 
   network.on('deselectNode', params => {
     params.previousSelection.nodes.forEach(nodeId => {
-      nodesDataSet.update({ id: nodeId, font: { color: 'rgba(0,0,0,0)' } });
+      nodesDataSet.update({ id: nodeId, font: { color: '#1f2937', size: 12, face: 'Manrope, Sora, sans-serif', multi: true } });
     });
   });
 

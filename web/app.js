@@ -258,16 +258,15 @@ function updateBookingStats(bookings) {
 
 /* ─── Graph ─── */
 function initGraph(stations, routes) {
-  const nodes = stations.map((s, i) => ({
+  const nodes = stations.map((s) => ({
     id: s.id,
     label: s.id + '\n' + s.name,
     title: s.name + ' (' + s.id + ')',
-    color: { background: '#2563eb', border: '#1d4ed8', highlight: { background: '#7c3aed', border: '#6d28d9' } },
-    font: { color: '#0f172a', size: 12, face: 'sans-serif', multi: true },
+    color: { background: '#f8fafc', border: '#1f2937', highlight: { background: '#ffffff', border: '#0ea5e9' }, hover: { background: '#ffffff', border: '#0ea5e9' } },
+    font: { color: 'rgba(0,0,0,0)', size: 12, face: 'Manrope, Sora, sans-serif', multi: true },
     borderWidth: 2,
-    size: 28,
-    shape: 'dot',
-    margin: 10
+    size: 16,
+    shape: 'dot'
   }));
 
   const edges = [];
@@ -280,11 +279,11 @@ function initGraph(stations, routes) {
       from: r.fromStationId, to: r.toStationId,
       label: r.distanceKm + 'km',
       title: r.id + ': ' + r.fromStationId + ' → ' + r.toStationId + ' (' + r.distanceKm + 'km, ₹' + r.baseFare + ')',
-      font: { size: 10, color: '#64748b', strokeWidth: 2, strokeColor: '#fff', align: 'middle' },
-      color: { color: '#94a3b8', highlight: '#2563eb', hover: '#3b82f6' },
-      width: 2,
-      smooth: { type: 'curvedCW', roundness: 0.1 },
-      chosen: { edge: (values) => { values.shadow = true; } }
+      font: { size: 9, color: 'rgba(0,0,0,0)', strokeWidth: 2, strokeColor: '#ffffff' },
+      color: { color: '#1e293b', highlight: '#0ea5e9', hover: '#0284c7' },
+      width: 3,
+      smooth: { type: 'curvedCW', roundness: 0.05 },
+      chosen: { edge: values => { values.shadow = true; } }
     });
   });
 
@@ -292,11 +291,15 @@ function initGraph(stations, routes) {
   edgesDataSet = new vis.DataSet(edges);
   const data = { nodes: nodesDataSet, edges: edgesDataSet };
   const options = {
-    physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -40, springLength: 150, springConstant: 0.005 }, stabilization: { iterations: 100 } },
-    interaction: { hover: true, tooltipDelay: 200, dragView: true, zoomView: true },
+    physics: {
+      solver: 'forceAtlas2Based',
+      forceAtlas2Based: { gravitationalConstant: -55, springLength: 190, springConstant: 0.004, avoidOverlap: 1 },
+      stabilization: { iterations: 140, updateInterval: 10 }
+    },
+    interaction: { hover: true, tooltipDelay: 250, dragView: true, zoomView: true },
     layout: { improvedLayout: true },
-    edges: { smooth: { type: 'curvedCW', roundness: 0.1 } },
-    nodes: { margin: 10 }
+    nodes: { margin: 6 },
+    edges: { smooth: { type: 'curvedCW', roundness: 0.05 } }
   };
 
   const container = document.getElementById('network-graph');
@@ -304,6 +307,37 @@ function initGraph(stations, routes) {
   container.innerHTML = '';
   network = new vis.Network(container, data, options);
   networkFullscreen = null;
+
+  network.on('hoverNode', params => {
+    nodesDataSet.update({ id: params.node, font: { color: '#1f2937', size: 12, face: 'Manrope, Sora, sans-serif', multi: true } });
+  });
+
+  network.on('blurNode', params => {
+    const selected = new Set(network.getSelectedNodes());
+    if (!selected.has(params.node)) {
+      nodesDataSet.update({ id: params.node, font: { color: 'rgba(0,0,0,0)' } });
+    }
+  });
+
+  network.on('selectNode', params => {
+    params.nodes.forEach(nodeId => {
+      nodesDataSet.update({ id: nodeId, font: { color: '#1f2937', size: 12, face: 'Manrope, Sora, sans-serif', multi: true } });
+    });
+  });
+
+  network.on('deselectNode', params => {
+    params.previousSelection.nodes.forEach(nodeId => {
+      nodesDataSet.update({ id: nodeId, font: { color: 'rgba(0,0,0,0)' } });
+    });
+  });
+
+  network.on('hoverEdge', params => {
+    edgesDataSet.update({ id: params.edge, font: { size: 9, color: '#64748b', strokeWidth: 2, strokeColor: '#ffffff' } });
+  });
+
+  network.on('blurEdge', params => {
+    edgesDataSet.update({ id: params.edge, font: { size: 9, color: 'rgba(0,0,0,0)', strokeWidth: 2, strokeColor: '#ffffff' } });
+  });
 
   network.on('click', params => {
     if (params.nodes.length > 0) {
@@ -319,7 +353,7 @@ function resetGraphColors() {
   if (!edgesDataSet) return;
   allRoutes.forEach(r => {
     const eid = routeEdgeMap[r.id];
-    if (eid) edgesDataSet.update({ id: eid, color: { color: '#94a3b8', highlight: '#2563eb', hover: '#3b82f6' }, width: 2 });
+    if (eid) edgesDataSet.update({ id: eid, color: { color: '#1e293b', highlight: '#0ea5e9', hover: '#0284c7' }, width: 3 });
   });
 }
 

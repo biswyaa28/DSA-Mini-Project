@@ -28,6 +28,14 @@ def test_graph_hero_css_tokens():
     assert "#network-graph::before" in css
 
 
+def test_graph_vis_options_updated():
+    js = Path("web/app.js").read_text(encoding="utf-8")
+    assert "hoverNode" in js
+    assert "blurNode" in js
+    assert "selectNode" in js
+    assert "rgba(0,0,0,0)" in js
+
+
 class TestExhibitionHtmlContract(unittest.TestCase):
     def test_overview_graph_hero_structure(self):
         test_overview_graph_hero_structure()

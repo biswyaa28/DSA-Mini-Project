@@ -33,7 +33,7 @@ def test_graph_vis_options_updated():
     assert "hoverNode" in js
     assert "blurNode" in js
     assert "selectNode" in js
-    assert "rgba(0,0,0,0)" in js
+    assert "strokeWidth" in js
 
 
 class TestExhibitionHtmlContract(unittest.TestCase):

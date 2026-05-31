@@ -278,7 +278,7 @@ function initGraph(stations, routes) {
       from: r.fromStationId, to: r.toStationId,
       label: r.distanceKm + 'km',
       title: r.id + ': ' + r.fromStationId + ' → ' + r.toStationId + ' (' + r.distanceKm + 'km, ₹' + r.baseFare + ')',
-      font: { size: 9, color: 'rgba(0,0,0,0)', strokeWidth: 2, strokeColor: '#ffffff' },
+      font: { size: 9, color: '#64748b', strokeWidth: 2, strokeColor: '#ffffff' },
       color: { color: '#1e293b', highlight: '#0ea5e9', hover: '#0284c7' },
       width: 3,
       smooth: { type: 'curvedCW', roundness: 0.05 },
@@ -329,11 +329,11 @@ function initGraph(stations, routes) {
   });
 
   network.on('hoverEdge', params => {
-    edgesDataSet.update({ id: params.edge, font: { size: 9, color: '#64748b', strokeWidth: 2, strokeColor: '#ffffff' } });
+    // distance always visible, no toggle needed
   });
 
   network.on('blurEdge', params => {
-    edgesDataSet.update({ id: params.edge, font: { size: 9, color: 'rgba(0,0,0,0)', strokeWidth: 2, strokeColor: '#ffffff' } });
+    // distance always visible, no toggle needed
   });
 
   network.on('click', params => {

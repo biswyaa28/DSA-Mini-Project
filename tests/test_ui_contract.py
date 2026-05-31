@@ -10,6 +10,14 @@ def read_web(filename: str) -> str:
     return (WEB_DIR / filename).read_text(encoding="utf-8")
 
 
+def test_overview_graph_hero_structure():
+    html = read_web("index.html")
+    assert "overview-hero" in html
+    assert "graph-hero" in html
+    assert "stats-strip" in html
+    assert "network-graph" in html
+
+
 class TestExhibitionHtmlContract(unittest.TestCase):
     def test_index_contains_exhibition_shell(self):
         html = read_web("index.html")

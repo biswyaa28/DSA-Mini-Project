@@ -61,40 +61,42 @@
 
       <!-- OVERVIEW -->
       <div class="page active" id="page-overview">
-        <div class="stats-grid" id="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Stations</div>
-            <div class="stat-value" id="stat-stations">—</div>
-            <div class="stat-sub muted" id="stat-stations-sub">Loading...</div>
+        <div class="overview-hero">
+          <div class="graph-card graph-hero">
+            <div class="graph-header">
+              <div class="graph-title">🌐 Network Graph</div>
+              <div class="graph-actions">
+                <button class="btn btn-ghost btn-sm" id="expand-graph-btn">⛶ Expand</button>
+                <button class="btn btn-ghost btn-sm" id="reset-graph-btn">⟲ Reset View</button>
+              </div>
+            </div>
+            <div class="graph-legend" id="graph-legend"></div>
+            <div class="graph-callout" id="graph-callout"></div>
+            <div id="network-graph"></div>
           </div>
-          <div class="stat-card">
-            <div class="stat-label">Routes</div>
-            <div class="stat-value" id="stat-routes">—</div>
-            <div class="stat-sub muted" id="stat-routes-sub">Loading...</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Bookings</div>
-            <div class="stat-value" id="stat-bookings">—</div>
-            <div class="stat-sub muted" id="stat-bookings-sub">Loading...</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Revenue</div>
-            <div class="stat-value" id="stat-revenue">—</div>
-            <div class="stat-sub muted" id="stat-revenue-sub">Loading...</div>
-          </div>
-        </div>
 
-        <div class="graph-card">
-          <div class="graph-header">
-            <div class="graph-title">🌐 Network Graph</div>
-            <div>
-              <button class="btn btn-ghost btn-sm" id="expand-graph-btn">⛶ Expand</button>
-              <button class="btn btn-ghost btn-sm" id="reset-graph-btn">⟲ Reset View</button>
+          <div class="stats-grid stats-strip" id="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Stations</div>
+              <div class="stat-value" id="stat-stations">—</div>
+              <div class="stat-sub muted" id="stat-stations-sub">Loading...</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Routes</div>
+              <div class="stat-value" id="stat-routes">—</div>
+              <div class="stat-sub muted" id="stat-routes-sub">Loading...</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Bookings</div>
+              <div class="stat-value" id="stat-bookings">—</div>
+              <div class="stat-sub muted" id="stat-bookings-sub">Loading...</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Revenue</div>
+              <div class="stat-value" id="stat-revenue">—</div>
+              <div class="stat-sub muted" id="stat-revenue-sub">Loading...</div>
             </div>
           </div>
-          <div id="graph-legend"></div>
-          <div id="graph-callout"></div>
-          <div id="network-graph"></div>
         </div>
       </div>
 

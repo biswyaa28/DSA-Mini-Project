@@ -262,7 +262,7 @@ function initGraph(stations, routes) {
     label: s.id + '\n' + s.name,
     title: s.name + ' (' + s.id + ')',
     color: { background: '#f8fafc', border: '#1f2937', highlight: { background: '#ffffff', border: '#0ea5e9' }, hover: { background: '#ffffff', border: '#0ea5e9' } },
-    font: { color: '#1f2937', size: 12, face: 'Manrope, Sora, sans-serif', multi: true },
+    font: { color: '#1f2937', size: 12, face: 'Manrope, Sora, sans-serif', multi: true, strokeWidth: 4, strokeColor: '#ffffff' },
     borderWidth: 2,
     size: 16,
     shape: 'dot'

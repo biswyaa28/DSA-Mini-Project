@@ -1,17 +1,17 @@
-Start testing: Jun 01 01:22 IST
+Start testing: Jun 01 01:33 IST
 ----------------------------------------------------------
 1/6 Testing: test_models
 1/6 Test: test_models
 Command: "/Users/biswyaa/Documents/DSA-Mini-Project/build/test_models"
 Directory: /Users/biswyaa/Documents/DSA-Mini-Project/build
-"test_models" start time: Jun 01 01:22 IST
+"test_models" start time: Jun 01 01:33 IST
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"test_models" end time: Jun 01 01:22 IST
+"test_models" end time: Jun 01 01:33 IST
 "test_models" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -19,14 +19,14 @@ Test Passed.
 2/6 Test: test_graph_basics
 Command: "/Users/biswyaa/Documents/DSA-Mini-Project/build/test_graph_basics"
 Directory: /Users/biswyaa/Documents/DSA-Mini-Project/build
-"test_graph_basics" start time: Jun 01 01:22 IST
+"test_graph_basics" start time: Jun 01 01:33 IST
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"test_graph_basics" end time: Jun 01 01:22 IST
+"test_graph_basics" end time: Jun 01 01:33 IST
 "test_graph_basics" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -34,14 +34,14 @@ Test Passed.
 3/6 Test: test_booking_pricing
 Command: "/Users/biswyaa/Documents/DSA-Mini-Project/build/test_booking_pricing"
 Directory: /Users/biswyaa/Documents/DSA-Mini-Project/build
-"test_booking_pricing" start time: Jun 01 01:22 IST
+"test_booking_pricing" start time: Jun 01 01:33 IST
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"test_booking_pricing" end time: Jun 01 01:22 IST
+"test_booking_pricing" end time: Jun 01 01:33 IST
 "test_booking_pricing" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -49,14 +49,14 @@ Test Passed.
 4/6 Test: test_routing_mst
 Command: "/Users/biswyaa/Documents/DSA-Mini-Project/build/test_routing_mst"
 Directory: /Users/biswyaa/Documents/DSA-Mini-Project/build
-"test_routing_mst" start time: Jun 01 01:22 IST
+"test_routing_mst" start time: Jun 01 01:33 IST
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"test_routing_mst" end time: Jun 01 01:22 IST
+"test_routing_mst" end time: Jun 01 01:33 IST
 "test_routing_mst" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -64,14 +64,14 @@ Test Passed.
 5/6 Test: test_sort_search_reports
 Command: "/Users/biswyaa/Documents/DSA-Mini-Project/build/test_sort_search_reports"
 Directory: /Users/biswyaa/Documents/DSA-Mini-Project/build
-"test_sort_search_reports" start time: Jun 01 01:22 IST
+"test_sort_search_reports" start time: Jun 01 01:33 IST
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"test_sort_search_reports" end time: Jun 01 01:22 IST
+"test_sort_search_reports" end time: Jun 01 01:33 IST
 "test_sort_search_reports" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -79,15 +79,15 @@ Test Passed.
 6/6 Test: test_api_smoke
 Command: "/Users/biswyaa/Documents/DSA-Mini-Project/build/test_api_smoke"
 Directory: /Users/biswyaa/Documents/DSA-Mini-Project/build
-"test_api_smoke" start time: Jun 01 01:22 IST
+"test_api_smoke" start time: Jun 01 01:33 IST
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.00 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"test_api_smoke" end time: Jun 01 01:22 IST
+"test_api_smoke" end time: Jun 01 01:33 IST
 "test_api_smoke" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Jun 01 01:22 IST
+End testing: Jun 01 01:33 IST

@@ -1,9 +1,9 @@
-# Viva Prep — P3: Dijkstra + Prim's MST + Dynamic Pricing
+# P3: Dijkstra's Algorithm + Prim's MST + Dynamic Pricing
 
 ## Your Role
-You implemented the three core algorithms: Dijkstra's shortest path (two modes), Prim's Minimum Spanning Tree, and greedy surge pricing. This is the algorithmic heart of the project.
+You are responsible for the **three core algorithms** — Dijkstra's shortest path (two modes), Prim's Minimum Spanning Tree, and the greedy dynamic surge pricing logic. This is the algorithmic heart of the project.
 
-## Key Files You Own
+## Files You Own
 
 | File | Algorithm | Lines |
 |------|-----------|-------|
@@ -11,25 +11,29 @@ You implemented the three core algorithms: Dijkstra's shortest path (two modes),
 | `src/mst_engine.cpp` | Prim's Algorithm | 47 |
 | `src/pricing_engine.cpp` | Greedy surge pricing | 13 |
 
+You also depend on:
+- `include/models.hpp` — `Route` struct with `distanceKm`, `capacity`, `occupiedSeats` (P1)
+- `include/rail_graph.hpp` — `outgoing()` to get neighbor edges from a station (P1)
+
 ---
 
-## 1. Dijkstra's Algorithm (`routing_engine.cpp`)
+## 1. Dijkstra's Algorithm
 
-### Standard Dijkstra Pseudocode
+### Pseudocode
 ```
 dist[source] = 0
 for each node: dist[node] = INF
-visited = empty
+visited = empty set
 
-while (unvisited node with smallest dist exists):
-    current = that node
-    visited.add(current)
-    if current == destination: break
-    for each neighbor of current:
-        newDist = dist[current] + edgeWeight(current, neighbor)
-        if newDist < dist[neighbor]:
-            dist[neighbor] = newDist
-            prev[neighbor] = current
+loop:
+  current = unvisited node with smallest dist
+  if current == destination: break
+  visited.add(current)
+  for each neighbor of current:
+    newDist = dist[current] + edgeWeight(current, neighbor)
+    if newDist < dist[neighbor]:
+      dist[neighbor] = newDist
+      prev[neighbor] = current
 ```
 
 ### Your Implementation (89 lines)
@@ -41,15 +45,15 @@ PathResult RoutingEngine::findPath(const std::string& src,
   if (src == dst) return result;  // same station → empty path, 0 distance
 
   const double INF = std::numeric_limits<double>::max();
-  std::unordered_map<std::string, double> dist;       // distances
-  std::unordered_map<std::string, std::string> prev;   // previous station
-  std::unordered_map<std::string, std::string> routeTaken; // which route used
+  std::unordered_map<std::string, double> dist;
+  std::unordered_map<std::string, std::string> prev;
+  std::unordered_map<std::string, std::string> routeTaken;  // which route was used
   std::unordered_set<std::string> visited;
 
   dist[src] = 0.0;
 
   while (true) {
-    // Find unvisited node with minimum distance (O(V) linear scan)
+    // O(V) linear scan to find unvisited node with minimum distance
     std::string current;
     double minDist = INF;
     for (const auto& pair : dist) {
@@ -63,7 +67,7 @@ PathResult RoutingEngine::findPath(const std::string& src,
 
     // Relax all outgoing edges from current
     for (const Route& route : graph_.outgoing(current)) {
-      double w = edgeWeight(route, mode);  // ← KEY: edge weight depends on mode
+      double w = edgeWeight(route, mode);  // KEY: weight depends on mode
       double newDist = dist[current] + w;
       if (!dist.count(route.toStationId) || newDist < dist[route.toStationId]) {
         dist[route.toStationId] = newDist;
@@ -73,53 +77,61 @@ PathResult RoutingEngine::findPath(const std::string& src,
     }
   }
 
-  // Reconstruct path from destination back to source
-  if (!dist.count(dst)) return PathResult{};  // no path exists
+  // No path exists
+  if (!dist.count(dst)) return PathResult{};
 
+  // Reconstruct path (reverse from destination back to source)
   std::vector<std::string> path;
   std::string cur = dst;
   while (cur != src) {
     path.push_back(routeTaken[cur]);
     cur = prev[cur];
   }
-  result.routeIds.assign(path.rbegin(), path.rend());  // reverse to get source→dest
+  result.routeIds.assign(path.rbegin(), path.rend());  // reverse to get source→dest order
   result.totalDistance = dist[dst];
   return result;
 }
 ```
 
-### Edge Weight Function (The Key)
+### Edge Weight Function — The Key Innovation
 ```cpp
 double RoutingEngine::edgeWeight(const Route& route,
                                   const std::string& mode) const {
   if (mode == "shortest") {
     return static_cast<double>(route.distanceKm);
   }
-  // least_crowded: penalize crowded routes
+  // "least_crowded": penalize full routes
   double occupancyRatio = route.occupiedSeats / route.capacity;
   return route.distanceKm * (1.0 + occupancyRatio);
 }
 ```
 
-| Mode | Edge Weight Formula | Behavior |
-|------|-------------------|----------|
-| `shortest` | `distanceKm` | Pure shortest path by distance |
-| `least_crowded` | `distance × (1 + occupancyRatio)` | Doubles effective distance of full routes |
+| Mode | Formula | When to use |
+|------|---------|-------------|
+| `shortest` | Raw `distanceKm` | Pure path length optimization |
+| `least_crowded` | `distance × (1 + occupancyRatio)` | Avoid crowded trains |
 
-**Example**: Route A: 10km, 100% full → weight = 10 × (1 + 1.0) = 20
-Route B: 15km, 20% full → weight = 15 × (1 + 0.2) = 18
-→ Algorithm picks Route B even though it's longer by distance!
+**Example**: R1 is 10km at 100% occupancy → weight = 10 × (1 + 1.0) = **20**. R3 is 40km at 10% occupancy → weight = 40 × (1 + 0.1) = **44**. Dijkstra picks R1 path even though it involves a transfer, because the direct route is too crowded.
+
+### PathResult Struct
+```cpp
+struct PathResult {
+  std::vector<std::string> routeIds;  // ordered list of routes from source→dest
+  double totalDistance;                // sum of distances
+};
+```
+Clean return type — no output parameters, no exceptions.
 
 ---
 
-## 2. Prim's Algorithm (`mst_engine.cpp`)
+## 2. Prim's Algorithm (Minimum Spanning Tree)
 
-### Standard Prim's Pseudocode
+### Pseudocode
 ```
 visited = {startNode}
-while (there are edges connecting visited to unvisited):
+while (edges exist from visited set to unvisited nodes):
     pick the cheapest such edge
-    add the new node to visited
+    add the new node to visited set
 ```
 
 ### Your Implementation (47 lines)
@@ -133,10 +145,10 @@ MstResult MSTEngine::buildMST(const std::string& startStation) const {
     double bestWeight = INF;
     std::string bestRouteId, bestDest;
 
-    // Scan ALL edges from ALL visited nodes → find cheapest to unvisited
+    // Nested loop: for every visited node, scan all outgoing edges
     for (const std::string& node : inMst) {
       for (const Route& route : graph_.outgoing(node)) {
-        if (inMst.count(route.toStationId)) continue;  // skip already in MST
+        if (inMst.count(route.toStationId)) continue;  // skip if already in MST
         double w = static_cast<double>(route.distanceKm);
         if (w < bestWeight) {
           bestWeight = w;
@@ -156,100 +168,132 @@ MstResult MSTEngine::buildMST(const std::string& startStation) const {
 }
 ```
 
+### MstResult Struct
+```cpp
+struct MstResult {
+  std::vector<std::string> routeIds;  // edges in the MST
+  double totalDistance;                // sum of all edge distances in MST
+};
+```
+
+### How Cycles Are Avoided
+The `inMst` set tracks all nodes already in the MST. When scanning edges, `if (inMst.count(route.toStationId)) continue;` skips any edge whose destination is already in the tree. This guarantees no cycles.
+
 ### Prim's vs Kruskal's — Know This!
 
 | | Prim's (ours) | Kruskal's |
 |---|---|---|
-| Approach | Grow from one node, add cheapest connecting edge | Sort ALL edges, add cheapest that doesn't create cycle |
-| Data Structure | Visited set + scan | Union-Find (Disjoint Set) |
-| Best for | Dense graphs | Sparse graphs |
+| Approach | Grow from seed node, add cheapest connecting edge | Sort ALL edges, add cheapest that doesn't create cycle |
+| Data structure | Visited set + edge scan | Union-Find (Disjoint Set) |
 | Start node | Required | Any |
+| Best for | Dense graphs | Sparse graphs |
+| Cycle detection | Check destination in visited set | Union-Find.find(parent) |
 
-**Why Prim's here?** The railway "minimum cost network" question naturally starts from a specific station. Prim's grows outward from that station — intuitive for a railway context.
+**Why Prim's here?** The railway "minimum cost network" question naturally starts from a specific station. Prim's grows outward — intuitively like building railway lines from a central hub.
+
+### MST on Seed Data
+For 5 stations, the MST contains exactly 4 edges (V-1). Starting from S1:
+- Cheapest edge from {S1} → R1 (10km, to S2)
+- Cheapest from {S1, S2} → R2 (15km, to S3) or R5 (25km, to S4)
+- Continues until all 5 stations are connected
 
 ---
 
-## 3. Greedy Surge Pricing (`pricing_engine.cpp`)
+## 3. Greedy Surge Pricing
 
-### The Implementation
+### Implementation
 ```cpp
 constexpr double kSurgeMultiplier = 1.3;  // 30% surge
 
 double PricingEngine::currentFare(const Route& route) const {
-  if (route.isSurgePricing()) {  // occupied > 80% of capacity
+  if (route.isSurgePricing()) {
     return route.baseFare * kSurgeMultiplier;
   }
   return route.baseFare;
 }
 ```
 
-Where `isSurgePricing()` (in `models.hpp`):
+Called from `models.hpp`:
 ```cpp
 bool Route::isSurgePricing() const {
   if (capacity <= 0) return false;
-  return occupiedSeats * 100 > capacity * 80;  // integer math, no floats
+  return occupiedSeats * 100 > capacity * 80;
 }
 ```
 
-### Why is this Greedy?
-A **greedy algorithm** makes the locally optimal choice at each step. Here: "if the train is busy RIGHT NOW, raise the price." It doesn't consider:
-- Whether occupancy will go up or down tomorrow
+### Why This is Greedy
+A **greedy algorithm** makes the locally optimal choice at each step without considering future consequences. Here: "if the train is >80% full right now, raise the fare." It ignores:
+- Future demand trends
 - Historical pricing patterns
+- Overall revenue optimization
 - Competitor pricing
 
-It just applies a 1.3× multiplier when occupancy > 80%. Simple and immediate.
-
-### Why Greedy Works Here
-Pricing is a threshold decision, not an optimization over time. If the train is >80% full, raise the fare by 30% — that's it. No need for DP or ML.
+**Greedy works here** because pricing is a threshold decision, not a multi-step optimization. Simple 1.3× surge at 80% threshold is exactly how Uber and Indian Railways' Tatkal schemes work.
 
 ---
 
 ## 4. Complexity Analysis
 
-| Algorithm | Your Complexity | Optimal Complexity |
-|-----------|----------------|-------------------|
-| Dijkstra | O(V²) — linear min-find | O((V+E) log V) with priority queue |
-| Prim's | O(V² × E) — double nested loop | O(E log V) with priority queue |
-| Surge Pricing | O(1) | O(1) — can't beat it |
+| Algorithm | Your Complexity | Optimal Complexity | Why Not Optimize? |
+|-----------|----------------|-------------------|-------------------|
+| Dijkstra | O(V²) — linear min-find | O((V+E) log V) with priority queue | V=5, E=7. ~25 vs ~30 ops |
+| Prim's | O(V² × E) — nested loops | O(E log V) with priority queue | Same reason |
+| Surge Pricing | O(1) | O(1) | Optimal already |
 
-**Why not optimize?** 5 stations, 7 routes. The difference between O(V²) and O((V+E) log V) is ~25 vs ~30 operations. Not worth the code complexity.
+**Optimization path for Dijkstra**: Replace the linear min-find loop with `std::priority_queue<std::pair<double, string>>`. Each iteration pops the min in O(log V). Total O((V+E) log V).
 
 ---
 
 ## Common Viva Questions
 
-**Q: Explain how your Dijkstra handles two different modes?**
-The `edgeWeight()` function returns different weights based on the mode string. `shortest` uses raw distance. `least_crowded` uses `distance × (1 + occupancyRatio)` which penalizes crowded routes. The rest of the algorithm is identical.
+**Q: Explain the two Dijkstra modes.**
+The `edgeWeight()` function returns different values based on the mode parameter. `shortest` uses raw distance. `least_crowded` uses `distance × (1 + occupancyRatio)` which makes full trains look "further away" to the algorithm. Everything else — the loop, the relaxation, the path reconstruction — is identical.
 
-**Q: What's the time complexity of your Dijkstra?**
-O(V²) because we find the minimum unvisited node using a linear scan. With V=5 stations, it's negligible. With a priority queue (`std::priority_queue`), it would be O((V+E) log V).
+**Q: What's the complexity of your Dijkstra?**
+O(V²) because we scan all distances to find the minimum each iteration (no priority queue). With V=5, negligible. At scale, a `priority_queue` would give O((V+E) log V).
 
-**Q: What's the difference between Prim's and Dijkstra's?**
-Both start from a source and grow outward. But:
-- **Dijkstra's** measures distance FROM source to each node individually (shortest path tree)
-- **Prim's** measures the MINIMUM total edge weight to connect all nodes (minimum spanning tree)
-- Dijkstra can stop early (once destination reached). Prim's must visit all reachable nodes.
+**Q: Dijkstra vs Prim's — what's the difference?**
+Both grow from a source by adding nodes. **Dijkstra** minimizes distance from source to each node individually (shortest path tree, can stop early). **Prim's** minimizes total edge weight to connect all nodes (minimum spanning tree, must visit all). Dijkstra uses accumulated distance; Prim's uses edge weight alone.
 
-**Q: How does your Prim's avoid cycles?**
-The `inMst` set tracks all nodes already in the MST. When scanning edges, we skip any edge whose destination is already in `inMst`. This ensures we never create a cycle.
+**Q: How does Prim's avoid cycles?**
+The `inMst` set tracks nodes already in the tree. When scanning outgoing edges, we skip any whose destination is already in `inMst`. Since we never revisit a node, we can never create a cycle.
 
-**Q: What's the surge threshold and why 80%?**
-80% occupancy triggers a 30% price surge. This mirrors real-world systems like Uber's surge pricing or Indian Railways' Tatkal scheme — higher demand = higher price to manage demand.
+**Q: What triggers surge pricing?**
+When `occupiedSeats * 100 > capacity * 80` — i.e., more than 80% of seats are occupied. Integer math avoids floating-point precision issues.
 
-**Q: Is there an MST for our seed data?**
-With 5 stations, Prim's finds the 4 cheapest routes that connect all stations. The total minimum distance is computed by the algorithm.
+**Q: Why 80% threshold and 1.3× multiplier?**
+Mirrors real-world pricing: Uber's surge starts at ~1.2× during high demand. Indian Railways' Tatkal charges a premium for last-minute bookings. 80% is a natural threshold where demand exceeds supply.
 
-**Q: What if there's no path between two stations in Dijkstra?**
+**Q: What if source and destination are the same in Dijkstra?**
+```cpp
+if (src == dst) return result;  // empty path, 0 distance
+```
+Early exit. No algorithm needed.
+
+**Q: What if there's no path between two stations?**
 ```cpp
 if (!dist.count(dst)) return PathResult{};
 ```
-Returns an empty result with 0 distance. The API then returns a 404 "No path found."
+Returns empty result. API translates to 404 "No path found."
 
-**Q: Why `PathResult` struct?**
+**Q: Why `edgeWeight` returns a non-integer for "shortest" mode?**
 ```cpp
-struct PathResult {
-  std::vector<std::string> routeIds;  // list of route IDs in order
-  double totalDistance;                // sum of distances
-};
+return static_cast<double>(route.distanceKm);
 ```
-Clean return type instead of output parameters or throwing exceptions.
+Consistent return type — both modes return double. The cast is a formality since distanceKm is int but the weighted formula returns double.
+
+**Q: Can you trace Dijkstra on your seed data from S1 to S4?**
+```
+dist[S1]=0
+From S1: relax R1(S2,10), R3(S3,40), R6(S5,30)
+  dist[S2]=10, dist[S3]=40, dist[S5]=30
+Pick S2 (min=10), relax R2(S3,15), R5(S4,25)
+  dist[S3]=min(40, 10+15)=25, dist[S4]=10+25=35
+Pick S3 (min=25), relax R4(S4,20)
+  dist[S4]=min(35, 25+20)=35  (unchanged)
+Pick S4 (min=35) → reached dest!
+Path: S1→R1→S2→R5→S4, distance=35
+```
+
+**Q: What is the "least crowded" path from S1 to S3?**
+If R3 (direct, 40km) is 100% full: weight = 40 × (1+1.0) = 80. R1(10km) + R2(15km) if both empty = 10 + 15 = 25. Algorithm picks the two-hop route even though it's longer in distance (25km vs 40km).

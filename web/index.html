@@ -46,7 +46,8 @@
     </aside>
 
     <main class="main-content">
-      <div class="hero-strip">
+      <!-- Contract anchor: class="hero-strip" -->
+      <div class="top-bar hero-strip">
         <div class="hero-text">
           <div class="top-bar-title" id="page-title">Overview</div>
           <div class="top-bar-subtitle" id="page-subtitle">Dashboard summary of your railway network</div>
@@ -325,9 +326,16 @@
             <div class="card-title">🎯 Fare Range Search</div>
             <p style="font-size:0.75rem;color:#64748b;margin-bottom:12px">Binary search: find bookings within a fare range</p>
             <div class="form-row">
-              <div class="form-group"><input type="number" id="fare-min" step="0.01" placeholder="Min (₹)"></div>
-              <div class="form-group"><input type="number" id="fare-max" step="0.01" placeholder="Max (₹)"></div>
+              <div class="form-group">
+                <label class="input-label" for="fare-min">Minimum Fare (INR)</label>
+                <input type="number" id="fare-min" step="0.01" placeholder="Min (₹)">
+              </div>
+              <div class="form-group">
+                <label class="input-label" for="fare-max">Maximum Fare (INR)</label>
+                <input type="number" id="fare-max" step="0.01" placeholder="Max (₹)">
+              </div>
             </div>
+            <div class="input-helper">Enter a lower and upper fare bound to search matching bookings.</div>
             <button class="btn btn-primary btn-sm" onclick="searchFareRange()">Search</button>
             <div id="fare-range-result" style="margin-top:14px"></div>
           </div>

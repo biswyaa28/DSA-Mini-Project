@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.6/dist/vis-network.min.css">
 </head>
 <body>
-  <div class="app-layout">
+  <div class="app-layout exhibition-layout">
     <aside class="sidebar">
       <div class="sidebar-logo">
         <span>🚂</span>
@@ -46,13 +46,15 @@
     </aside>
 
     <main class="main-content">
-      <div class="top-bar">
-        <div>
+      <div class="hero-strip">
+        <div class="hero-text">
           <div class="top-bar-title" id="page-title">Overview</div>
           <div class="top-bar-subtitle" id="page-subtitle">Dashboard summary of your railway network</div>
         </div>
-        <div class="top-bar-pills">
-          <span class="pill success">● Connected</span>
+        <div id="hero-metrics">
+          <div id="hero-mode">Mode: Connected</div>
+          <div id="hero-stations">Stations: --</div>
+          <div id="hero-routes">Routes: --</div>
         </div>
       </div>
 
@@ -89,6 +91,8 @@
               <button class="btn btn-ghost btn-sm" id="reset-graph-btn">⟲ Reset View</button>
             </div>
           </div>
+          <div id="graph-legend"></div>
+          <div id="graph-callout"></div>
           <div id="network-graph"></div>
         </div>
       </div>
@@ -103,10 +107,14 @@
             <div class="card-title">Add Station</div>
             <form id="station-form">
               <div class="form-group">
-                <input type="text" name="id" placeholder="Station ID (e.g. S1)" required>
+                <label class="input-label" for="station-id">Station ID</label>
+                <input id="station-id" type="text" name="id" placeholder="Station ID (e.g. S1)" required>
+                <div class="input-helper">Use a unique station code such as S1.</div>
               </div>
               <div class="form-group">
-                <input type="text" name="name" placeholder="Station Name (e.g. Central)" required>
+                <label class="input-label" for="station-name">Station Name</label>
+                <input id="station-name" type="text" name="name" placeholder="Station Name (e.g. Central)" required>
+                <div class="input-helper">Enter the display name shown in the network.</div>
               </div>
               <button type="submit" class="btn btn-primary btn-full">+ Add Station</button>
             </form>
@@ -115,14 +123,38 @@
             <div class="card-title">Add Route</div>
             <form id="route-form">
               <div class="form-row">
-                <div class="form-group"><input type="text" name="id" placeholder="Route ID" required></div>
-                <div class="form-group"><input type="text" name="fromStationId" placeholder="From" required></div>
-                <div class="form-group"><input type="text" name="toStationId" placeholder="To" required></div>
+                <div class="form-group">
+                  <label class="input-label" for="route-id">Route ID</label>
+                  <input id="route-id" type="text" name="id" placeholder="Route ID" required>
+                  <div class="input-helper">Use a unique route code such as R1.</div>
+                </div>
+                <div class="form-group">
+                  <label class="input-label" for="route-from">From Station</label>
+                  <input id="route-from" type="text" name="fromStationId" placeholder="From" required>
+                  <div class="input-helper">Starting station ID.</div>
+                </div>
+                <div class="form-group">
+                  <label class="input-label" for="route-to">To Station</label>
+                  <input id="route-to" type="text" name="toStationId" placeholder="To" required>
+                  <div class="input-helper">Destination station ID.</div>
+                </div>
               </div>
               <div class="form-row">
-                <div class="form-group"><input type="number" name="distanceKm" placeholder="Distance (km)" required></div>
-                <div class="form-group"><input type="number" step="0.01" name="baseFare" placeholder="Fare (₹)" required></div>
-                <div class="form-group"><input type="number" name="capacity" placeholder="Capacity" required></div>
+                <div class="form-group">
+                  <label class="input-label" for="route-distance">Distance (km)</label>
+                  <input id="route-distance" type="number" name="distanceKm" placeholder="Distance (km)" required>
+                  <div class="input-helper">Total route length in kilometers.</div>
+                </div>
+                <div class="form-group">
+                  <label class="input-label" for="route-fare">Base Fare (INR)</label>
+                  <input id="route-fare" type="number" step="0.01" name="baseFare" placeholder="Fare (INR)" required>
+                  <div class="input-helper">Starting fare before dynamic adjustments.</div>
+                </div>
+                <div class="form-group">
+                  <label class="input-label" for="route-capacity">Capacity</label>
+                  <input id="route-capacity" type="number" name="capacity" placeholder="Capacity" required>
+                  <div class="input-helper">Maximum passengers for this route.</div>
+                </div>
               </div>
               <button type="submit" class="btn btn-primary btn-full">+ Add Route</button>
             </form>
@@ -158,10 +190,22 @@
           <div class="card">
             <div class="card-title">Book a Seat</div>
             <form id="book-form">
-              <div class="form-group"><input type="text" name="routeId" placeholder="Route ID (e.g. R1)" required></div>
-              <div class="form-group"><input type="text" name="passengerName" placeholder="Passenger Name" required></div>
+              <div class="form-group">
+                <label class="input-label" for="book-route-id">Route ID</label>
+                <input id="book-route-id" type="text" name="routeId" placeholder="Route ID (e.g. R1)" required>
+                <div class="input-helper">Choose an existing route for this booking.</div>
+              </div>
+              <div class="form-group">
+                <label class="input-label" for="book-passenger-name">Passenger Name</label>
+                <input id="book-passenger-name" type="text" name="passengerName" placeholder="Passenger Name" required>
+                <div class="input-helper">Name printed on the ticket.</div>
+              </div>
               <div class="form-row">
-                <div class="form-group"><input type="text" name="travelDate" placeholder="Travel Date (optional)"></div>
+                <div class="form-group">
+                  <label class="input-label" for="book-travel-date">Travel Date</label>
+                  <input id="book-travel-date" type="text" name="travelDate" placeholder="Travel Date (optional)">
+                  <div class="input-helper">Optional format: YYYY-MM-DD.</div>
+                </div>
                 <div class="checkbox-group">
                   <input type="checkbox" name="isVip" id="vip-check">
                   <label for="vip-check">VIP</label>
@@ -173,7 +217,11 @@
           <div class="card">
             <div class="card-title">Cancel Booking</div>
             <form id="cancel-form">
-              <div class="form-group"><input type="text" name="bookingId" placeholder="Booking ID (e.g. B1)" required></div>
+              <div class="form-group">
+                <label class="input-label" for="cancel-booking-id">Booking ID</label>
+                <input id="cancel-booking-id" type="text" name="bookingId" placeholder="Booking ID (e.g. B1)" required>
+                <div class="input-helper">Enter the booking reference to cancel.</div>
+              </div>
               <button type="submit" class="btn btn-danger btn-full">Cancel Booking</button>
             </form>
             <div style="margin-top:14px;padding:14px;background:#fef2f2;border-radius:10px;border:1px solid #fecaca;">
@@ -211,8 +259,16 @@
           <div class="card" style="max-width:340px">
             <div class="card-title">Search Parameters</div>
             <form id="route-search-form">
-              <div class="form-group"><input type="text" name="from" placeholder="From Station ID" required></div>
-              <div class="form-group"><input type="text" name="to" placeholder="To Station ID" required></div>
+              <div class="form-group">
+                <label class="input-label" for="search-from">From Station ID</label>
+                <input id="search-from" type="text" name="from" placeholder="From Station ID" required>
+                <div class="input-helper">Starting node for route search.</div>
+              </div>
+              <div class="form-group">
+                <label class="input-label" for="search-to">To Station ID</label>
+                <input id="search-to" type="text" name="to" placeholder="To Station ID" required>
+                <div class="input-helper">Destination node for route search.</div>
+              </div>
               <div class="btn-group" id="mode-toggle">
                 <button type="button" class="btn btn-sm active" data-mode="shortest">Shortest</button>
                 <button type="button" class="btn btn-sm" data-mode="least_crowded">Least Crowded</button>
@@ -237,7 +293,11 @@
           <div class="card" style="max-width:340px">
             <div class="card-title">Build Minimum Spanning Tree</div>
             <form id="mst-form">
-              <div class="form-group"><input type="text" name="start" placeholder="Start Station ID" required></div>
+              <div class="form-group">
+                <label class="input-label" for="mst-start">Start Station ID</label>
+                <input id="mst-start" type="text" name="start" placeholder="Start Station ID" required>
+                <div class="input-helper">Root node used to seed Prim's traversal.</div>
+              </div>
               <button type="submit" class="btn btn-success btn-full">Build MST</button>
             </form>
           </div>
@@ -282,8 +342,16 @@
             <div class="card-title">📈 Fare Trend Predictor</div>
             <form id="fare-trend-form" style="margin-bottom:12px">
               <div class="form-row">
-                <div class="form-group"><input type="text" name="routeId" placeholder="Route ID" required></div>
-                <div class="form-group"><input type="number" name="days" placeholder="Days (1-30)" min="1" max="30" required></div>
+                <div class="form-group">
+                  <label class="input-label" for="fare-trend-route">Route ID</label>
+                  <input id="fare-trend-route" type="text" name="routeId" placeholder="Route ID" required>
+                  <div class="input-helper">Route to forecast fare movement for.</div>
+                </div>
+                <div class="form-group">
+                  <label class="input-label" for="fare-trend-days">Days (1-30)</label>
+                  <input id="fare-trend-days" type="number" name="days" placeholder="Days (1-30)" min="1" max="30" required>
+                  <div class="input-helper">Forecast horizon in days.</div>
+                </div>
               </div>
               <button type="submit" class="btn btn-primary btn-sm">Project Fares</button>
             </form>

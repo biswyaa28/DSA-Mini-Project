@@ -36,6 +36,10 @@ function initSidebar() {
       document.getElementById('page-title').textContent = meta.title;
       document.getElementById('page-subtitle').textContent = meta.subtitle;
       updateHeroMetrics(btn.dataset.page);
+      if (btn.dataset.page !== 'routing' && btn.dataset.page !== 'mst') {
+        resetGraphColors();
+        setGraphCallout('none', '');
+      }
     });
   });
 }
@@ -174,6 +178,8 @@ function initForms() {
       setSectionState('route', 'success');
       renderPathResult(res.data);
     } else {
+      resetGraphColors();
+      setGraphCallout('none', '');
       setSectionState('route', 'error', 'Route search failed. Try different stations.');
     }
   });
@@ -188,6 +194,8 @@ function initForms() {
       setSectionState('mst', 'success');
       renderMstResult(res.data);
     } else {
+      resetGraphColors();
+      setGraphCallout('none', '');
       setSectionState('mst', 'error', 'Failed to build MST from selected station.');
     }
   });

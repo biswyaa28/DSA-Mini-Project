@@ -19,6 +19,9 @@ def test_overview_graph_hero_structure():
 
 
 class TestExhibitionHtmlContract(unittest.TestCase):
+    def test_overview_graph_hero_structure(self):
+        test_overview_graph_hero_structure()
+
     def test_index_contains_exhibition_shell(self):
         html = read_web("index.html")
         required_snippets = [

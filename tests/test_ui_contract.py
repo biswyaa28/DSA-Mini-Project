@@ -18,6 +18,16 @@ def test_overview_graph_hero_structure():
     assert "network-graph" in html
 
 
+def test_graph_hero_css_tokens():
+    css = Path("web/styles.css").read_text(encoding="utf-8")
+    assert ".overview-hero" in css
+    assert ".graph-hero" in css
+    assert ".stats-strip" in css
+    assert ".legend-chip" in css
+    assert ".graph-callout.active" in css
+    assert "#network-graph::before" in css
+
+
 class TestExhibitionHtmlContract(unittest.TestCase):
     def test_overview_graph_hero_structure(self):
         test_overview_graph_hero_structure()

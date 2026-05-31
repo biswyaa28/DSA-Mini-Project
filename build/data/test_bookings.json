@@ -1,0 +1,29 @@
+[
+  {
+    "chargedFare": 150.0,
+    "id": "B1",
+    "isVip": false,
+    "passengerName": "Alice",
+    "routeId": "R1",
+    "status": "Confirmed",
+    "travelDate": "2024-03-15"
+  },
+  {
+    "chargedFare": 200.0,
+    "id": "B2",
+    "isVip": true,
+    "passengerName": "Bob",
+    "routeId": "R2",
+    "status": "Waitlisted",
+    "travelDate": "2024-03-20"
+  },
+  {
+    "chargedFare": 100.0,
+    "id": "B3",
+    "isVip": false,
+    "passengerName": "Carol",
+    "routeId": "R1",
+    "status": "Cancelled",
+    "travelDate": "2024-03-10"
+  }
+]

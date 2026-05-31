@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/test_graph_basics.dir/tests/test_graph_basics.cpp.o -o test_graph_basics  librailway_core.a

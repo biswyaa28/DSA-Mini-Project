@@ -1,0 +1,2 @@
+/usr/bin/ar qc librailway_core.a CMakeFiles/railway_core.dir/src/station_directory.cpp.o CMakeFiles/railway_core.dir/src/rail_graph.cpp.o CMakeFiles/railway_core.dir/src/pricing_engine.cpp.o CMakeFiles/railway_core.dir/src/booking_engine.cpp.o CMakeFiles/railway_core.dir/src/routing_engine.cpp.o CMakeFiles/railway_core.dir/src/mst_engine.cpp.o CMakeFiles/railway_core.dir/src/sort_search.cpp.o CMakeFiles/railway_core.dir/src/report_engine.cpp.o CMakeFiles/railway_core.dir/src/storage_manager.cpp.o
+/usr/bin/ranlib librailway_core.a

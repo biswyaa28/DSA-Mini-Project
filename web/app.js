@@ -4,11 +4,22 @@ let allStations = [], allRoutes = [];
 let routeEdgeMap = {};
 let nodesDataSet, edgesDataSet;
 
+const PAGE_META = {
+  overview: { title: 'Overview', subtitle: 'Dashboard summary of your railway network', mode: 'Network Overview' },
+  stations: { title: 'Stations & Routes', subtitle: 'Manage your railway infrastructure', mode: 'Infrastructure Control' },
+  booking: { title: 'Booking', subtitle: 'Book seats, manage waitlist, process cancellations', mode: 'Booking Operations' },
+  routing: { title: 'Route Finder', subtitle: 'Find shortest or least-crowded paths using Dijkstra\'s algorithm', mode: 'Path Planning' },
+  mst: { title: 'MST Report', subtitle: 'Build a minimum spanning tree using Prim\'s algorithm', mode: 'MST Analysis' },
+  analysis: { title: 'Analysis', subtitle: 'Reports, fare search, occupancy, and trend prediction', mode: 'Advanced Analytics' }
+};
+
 /* ─── Init ─── */
 document.addEventListener('DOMContentLoaded', () => {
   initSidebar();
   initForms();
   initGraphModal();
+  updateHeroMetrics('overview');
+  setGraphCallout('none', '');
   loadAllData();
 });
 
@@ -21,19 +32,62 @@ function initSidebar() {
       const page = document.getElementById('page-' + btn.dataset.page);
       page.classList.add('active', 'fade-in');
 
-      const titles = {
-        overview: ['Overview', 'Dashboard summary of your railway network'],
-        stations: ['Stations & Routes', 'Manage your railway infrastructure'],
-        booking: ['Booking', 'Book seats, manage waitlist, process cancellations'],
-        routing: ['Route Finder', 'Find shortest or least-crowded paths using Dijkstra\'s algorithm'],
-        mst: ['MST Report', 'Build a minimum spanning tree using Prim\'s algorithm'],
-        analysis: ['Analysis', 'Reports, fare search, occupancy, and trend prediction']
-      };
-      const t = titles[btn.dataset.page] || ['', ''];
-      document.getElementById('page-title').textContent = t[0];
-      document.getElementById('page-subtitle').textContent = t[1];
+      const meta = PAGE_META[btn.dataset.page] || { title: '', subtitle: '' };
+      document.getElementById('page-title').textContent = meta.title;
+      document.getElementById('page-subtitle').textContent = meta.subtitle;
+      updateHeroMetrics(btn.dataset.page);
     });
   });
+}
+
+function renderStatePanel(state, message) {
+  if (state === 'loading') return '<div class="empty-state"><p>Loading...</p></div>';
+  if (state === 'error') return '<div class="empty-state"><p>' + esc(message || 'Unable to load data.') + '</p></div>';
+  if (state === 'success' && message) return '<div class="empty-state"><p>' + esc(message) + '</p></div>';
+  return '';
+}
+
+function setSectionState(sectionKey, state, message) {
+  const sectionMap = {
+    route: 'path-result',
+    mst: 'mst-result',
+    profitability: 'profitability-result',
+    fareRange: 'fare-range-result',
+    occupancy: 'occupancy-map',
+    fareTrend: 'fare-trend-result'
+  };
+  const targetId = sectionMap[sectionKey];
+  if (!targetId) return;
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  if (state === 'loading' || state === 'error') {
+    el.innerHTML = renderStatePanel(state, message);
+  } else if (state === 'success' && message) {
+    el.innerHTML = renderStatePanel(state, message);
+  }
+}
+
+function updateHeroMetrics(pageKey) {
+  const heroMode = document.getElementById('hero-mode');
+  const heroStations = document.getElementById('hero-stations');
+  const heroRoutes = document.getElementById('hero-routes');
+  if (heroMode) heroMode.textContent = (PAGE_META[pageKey] || PAGE_META.overview).mode;
+  if (heroStations) heroStations.textContent = allStations.length;
+  if (heroRoutes) heroRoutes.textContent = allRoutes.length;
+}
+
+function setGraphCallout(kind, detail) {
+  const callout = document.getElementById('graph-callout');
+  if (!callout) return;
+  if (kind === 'dijkstra') {
+    callout.textContent = 'Dijkstra: ' + detail;
+    return;
+  }
+  if (kind === 'mst') {
+    callout.textContent = 'MST: ' + detail;
+    return;
+  }
+  callout.textContent = '';
 }
 
 function initGraphModal() {
@@ -61,6 +115,7 @@ function initGraphModal() {
     resetGraphColors();
     if (network) network.fit({ animation: true });
     if (networkFullscreen) networkFullscreen.fit({ animation: true });
+    setGraphCallout('none', '');
   });
 }
 
@@ -113,23 +168,41 @@ function initForms() {
     const from = fd.get('from'), to = fd.get('to');
     const mode = document.querySelector('#mode-toggle .active')?.dataset.mode || 'shortest';
     showToast('Searching...', '');
+    setSectionState('route', 'loading');
     const res = await apiGet(`/api/routes/search?from=${from}&to=${to}&mode=${mode}`);
-    if (res) renderPathResult(res.data);
+    if (res) {
+      setSectionState('route', 'success');
+      renderPathResult(res.data);
+    } else {
+      setSectionState('route', 'error', 'Route search failed. Try different stations.');
+    }
   });
 
   document.getElementById('mst-form').addEventListener('submit', async e => {
     e.preventDefault();
     const fd = new FormData(e.target);
     showToast('Building MST...', '');
+    setSectionState('mst', 'loading');
     const res = await apiGet('/api/mst?start=' + fd.get('start'));
-    if (res) renderMstResult(res.data);
+    if (res) {
+      setSectionState('mst', 'success');
+      renderMstResult(res.data);
+    } else {
+      setSectionState('mst', 'error', 'Failed to build MST from selected station.');
+    }
   });
 
   document.getElementById('fare-trend-form').addEventListener('submit', async e => {
     e.preventDefault();
     const fd = new FormData(e.target);
+    setSectionState('fareTrend', 'loading');
     const res = await apiGet(`/api/fare-trend?routeId=${fd.get('routeId')}&days=${fd.get('days')}`);
-    if (res) renderFareTrend(res.data);
+    if (res) {
+      setSectionState('fareTrend', 'success');
+      renderFareTrend(res.data);
+    } else {
+      setSectionState('fareTrend', 'error', 'Fare trend data is unavailable right now.');
+    }
   });
 
   document.querySelectorAll('#mode-toggle .btn').forEach(btn => {
@@ -148,6 +221,7 @@ async function loadAllData() {
 
   initGraph(allStations, allRoutes);
   updateStats(allStations, allRoutes);
+  updateHeroMetrics(document.querySelector('.nav-item.active')?.dataset.page || 'overview');
   loadStationsTable();
   loadRoutesTable();
 }
@@ -312,6 +386,7 @@ function renderPathResult(data) {
   const el = document.getElementById('path-result');
   if (!data.routeIds || data.routeIds.length === 0) {
     el.innerHTML = '<div class="result-box" style="background:#fef2f2;border-color:#fecaca"><p style="color:#dc2626">No path found between these stations.</p></div>';
+    setGraphCallout('none', '');
     return;
   }
 
@@ -320,6 +395,7 @@ function renderPathResult(data) {
   const stops = reconstructPath(data.from, data.routeIds);
   const fromName = allStations.find(s => s.id === data.from)?.name || data.from;
   const toName = allStations.find(s => s.id === data.to)?.name || data.to;
+  setGraphCallout('dijkstra', data.from + ' -> ' + data.to);
 
   let pathHtml = '<div class="path-stops">';
   stops.forEach((s, i) => {
@@ -347,10 +423,12 @@ function renderMstResult(data) {
   const el = document.getElementById('mst-result');
   if (!data.routeIds || data.routeIds.length === 0) {
     el.innerHTML = '<div class="empty-state"><p>No reachable stations from this start point.</p></div>';
+    setGraphCallout('none', '');
     return;
   }
 
   highlightEdges(data.routeIds, '#059669', 4);
+  setGraphCallout('mst', data.totalDistance + ' km total');
 
   el.innerHTML = `<div class="result-box success">
     <div><span style="font-size:0.8rem;color:#475569">Minimum total distance to connect all stations:</span></div>
@@ -424,11 +502,12 @@ async function loadWaitlist() {
 
 /* ─── Analysis ─── */
 async function loadProfitability() {
+  setSectionState('profitability', 'loading');
   const res = await apiGet('/api/reports/profitability');
-  if (!res) return;
+  if (!res) { setSectionState('profitability', 'error', 'Could not fetch profitability report.'); return; }
   const el = document.getElementById('profitability-result');
   const entries = Object.entries(res.data || {});
-  if (!entries.length) { el.innerHTML = '<div class="empty-state"><p>No data.</p></div>'; return; }
+  if (!entries.length) { setSectionState('profitability', 'success', 'No data.'); return; }
 
   const maxVal = Math.max(...entries.map(([, v]) => v), 1);
   el.innerHTML = '<div class="profit-bar-container">' +
@@ -446,11 +525,12 @@ async function searchFareRange() {
   const min = document.getElementById('fare-min').value;
   const max = document.getElementById('fare-max').value;
   if (!min || !max) { showToast('Enter both min and max fare', 'error'); return; }
+  setSectionState('fareRange', 'loading');
   const res = await apiGet(`/api/fares/range?min=${min}&max=${max}`);
-  if (!res) return;
+  if (!res) { setSectionState('fareRange', 'error', 'Failed to search fare range.'); return; }
   const el = document.getElementById('fare-range-result');
   const results = res.data?.results || [];
-  if (!results.length) { el.innerHTML = '<div class="empty-state"><p>No bookings in this range.</p></div>'; return; }
+  if (!results.length) { setSectionState('fareRange', 'success', 'No bookings in this range.'); return; }
   el.innerHTML = '<p style="font-size:0.75rem;color:#64748b;margin-bottom:8px">Found ' + results.length + ' booking(s) <span style="color:#94a3b8">· binary search on sorted fares</span></p>' +
     '<table><thead><tr><th>ID</th><th>Route</th><th>Passenger</th><th>Fare</th></tr></thead><tbody>' +
     results.map(b => `<tr>
@@ -460,11 +540,12 @@ async function searchFareRange() {
 }
 
 async function loadOccupancy() {
+  setSectionState('occupancy', 'loading');
   const res = await apiGet('/api/occupancy-map');
-  if (!res) return;
+  if (!res) { setSectionState('occupancy', 'error', 'Occupancy data could not be loaded.'); return; }
   const el = document.getElementById('occupancy-map');
   const data = res.data || [];
-  if (!data.length) { el.innerHTML = '<div class="empty-state"><p>No routes to display.</p></div>'; return; }
+  if (!data.length) { setSectionState('occupancy', 'success', 'No routes to display.'); return; }
   el.innerHTML = '<div class="occupancy-list">' +
     data.map(r => {
       const pct = r.occupancyPercent;
@@ -479,7 +560,7 @@ async function loadOccupancy() {
 
 function renderFareTrend(data) {
   const el = document.getElementById('fare-trend-result');
-  if (!data.trend || !data.trend.length) { el.innerHTML = '<div class="empty-state"><p>No data.</p></div>'; return; }
+  if (!data.trend || !data.trend.length) { setSectionState('fareTrend', 'success', 'No data.'); return; }
 
   const maxVal = Math.max(...data.trend.map(t => t.projectedFare), 1);
   const bars = data.trend.map((t, i) => {
